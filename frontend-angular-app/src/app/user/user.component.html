@@ -1,0 +1,95 @@
+<mat-toolbar color="primary">
+  <span>Users</span>
+  <span class="spacer"></span>
+  <a class="margin" mat-raised-button href="/swagger-ui/index.html#/user-controller/deleteUser" target="_blank">API Docs</a>
+  <button class="margin" mat-stroked-button  (click)="deleteAllSelected()">
+    Delete All Selected
+  </button>
+  <button class="margin" mat-fab color="accent" (click)="openAddEditUser()">
+    <mat-icon>add</mat-icon>
+  </button>
+</mat-toolbar>
+<div class="container">
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="checkbox">
+      <th *matHeaderCellDef class="actions-cell" mat-header-cell>
+        <mat-checkbox
+          (change)="$event ? masterToggle() : null"
+          [checked]="selection.hasValue() && isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()"
+        >
+        </mat-checkbox>
+      </th>
+      <td *matCellDef="let row" class="actions-cell" mat-cell>
+        <mat-checkbox
+          (click)="$event.stopPropagation()"
+          (change)="$event ? selection.toggle(row) : null"
+          [checked]="selection.isSelected(row)"
+        >
+        </mat-checkbox>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="firstName">
+      <th mat-header-cell *matHeaderCellDef>First Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.firstName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="middleName">
+      <th mat-header-cell *matHeaderCellDef>Middle Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.middleName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="lastName">
+      <th mat-header-cell *matHeaderCellDef>Last Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.lastName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>Email</th>
+      <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="creationDate">
+      <th mat-header-cell *matHeaderCellDef>Date Created</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.creationDate | date }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          color="primary"
+          type="button"
+          mat-icon-button
+          (click)="openAddEditUser(element)"
+        >
+          <mat-icon matTooltip="edit">edit</mat-icon>
+        </button>
+        <button
+          color="warn"
+          type="button"
+          mat-icon-button
+          (click)="deleteUser(element.id)"
+        >
+          <mat-icon matTooltip="delete">delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+  <mat-paginator
+    #paginator
+    [length]="userResponse.totalElements"
+    [pageIndex]="userResponse.pageNo"
+    [pageSize]="userResponse.pageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="pageChanged($event)"
+    aria-label="Select page"
+  >
+  </mat-paginator>
+</div>

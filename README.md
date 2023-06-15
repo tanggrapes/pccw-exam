@@ -40,4 +40,13 @@ It will use the same postgres and fakesms container
 docker-compose -f compose-all.yaml up -d
 ```
 
+- [Frontend URL](http://localhost:8080)
+- [REST API Docs](http://localhost:8080/swagger-ui/index.html#/user-controller/deleteUser)
+
+## Running the unit test
+```shell
+mvn test
+```
+
+
 
