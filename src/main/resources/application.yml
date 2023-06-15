@@ -1,0 +1,19 @@
+server:
+  error:
+    include-message: always
+spring:
+  mail:
+    host: 0.0.0.0
+    port: 1025
+  datasource:
+    password: secret
+    url: jdbc:postgresql://localhost:5432/mydatabase
+    username: myuser
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        current_session_context_class: thread
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
